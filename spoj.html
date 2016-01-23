@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Angular.js nvd3.js Pie Chart Directive</title>
+
+  <script src="assets/js/angular.js"></script>
+  <script src="assets/js/d3.js"></script>
+  <script src="assets/js/nv.d3.js"></script>
+  <script src="assets/js/angularjs-nvd3-directives.js"></script>
+  <link rel="stylesheet" href="assets/css/nv.d3.css" />
+  <script>
+  var app = angular.module("nvd3TestApp", ['nvd3ChartDirectives']);
+
+  function ExampleCtrl($scope) {
+    $scope.exampleData = [{
+      key: "ACC",
+      y: 175
+    }, {
+      key: "WA",
+      y: 75
+    }, {
+      key: "TLE",
+      y: 42
+    }, {
+      key: "RE",
+      y: 32
+    }, {
+      key: "CE",
+      y: 17
+    }];
+
+    $scope.xFunction = function() {
+      return function(d) {
+        return d.key;
+      };
+    }
+    $scope.yFunction = function() {
+      return function(d) {
+        return d.y;
+      };
+    }
+
+    $scope.descriptionFunction = function() {
+      return function(d) {
+        return d.key;
+      }
+    }
+
+var data = {
+"ACC": 51.3,
+"WA": 22.0,
+"TLE": 12.3,
+"RE": 9.4,
+"CE": 5.0 };
+
+$scope.toolTipContentFunction = function(){
+	return function(key, x, y, e, graph) {
+    	return '<p>' + key + '</p><p>' + x + '(' + data[key] + '%)</p>'
+	}
+}
+
+  }
+  </script>
+
+</head>
+
+<body ng-app='nvd3TestApp'>
+
+  <div ng-controller="ExampleCtrl">
+    <nvd3-pie-chart
+            data="exampleData"
+            id="exampleId"
+            margin="{left:0,top:0,bottom:0,right:0}"
+            x="xFunction()"
+            y="yFunction()"
+            showLabels="true"
+            showValues="true"
+            labelType="percent"
+        showLegend="true"
+tooltips="true"
+        tooltipcontent="toolTipContentFunction()">
+        <svg></svg>
+    </nvd3-pie-chart>
+</div>
+
+</body>
+
+</html>
